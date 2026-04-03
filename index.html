@@ -9,6 +9,7 @@
   <meta property="og:description" content="Spectra — value chain intelligence, visualized. FirstLook — company URL in, report out.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://reidcavallini.com">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     @font-face {
       font-family: 'Newsreader';
@@ -54,6 +55,14 @@
       margin-bottom: 28px;
     }
 
+    .section-label {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.4;
+      opacity: 0.65;
+      margin-bottom: 10px;
+    }
+
     .projects {
       display: grid;
       grid-template-columns: auto 1fr;
@@ -67,11 +76,20 @@
       line-height: 1.4;
     }
 
+    .project-name.clickable {
+      cursor: pointer;
+    }
+
+    .project-name.clickable:hover,
+    a.project-name:hover {
+      opacity: 0.6;
+    }
+
     .project-desc {
       font-size: 14px;
       font-weight: 300;
       line-height: 1.4;
-      opacity: 0.5;
+      opacity: 0.65;
     }
 
     .contact {
@@ -93,10 +111,179 @@
       margin: 0 6px;
     }
 
+    /* Panels */
+    .post-panel {
+      display: none;
+      position: fixed;
+      left: 55%;
+      top: 10%;
+      transform: translateX(-50%);
+      background: #fafaf4;
+      border: 1px solid #2c4661;
+      max-width: 620px;
+      width: min(620px, calc(95vw - 340px));
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 48px;
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+      color: #2c4661;
+      z-index: 10;
+    }
+
+    .post-panel.open {
+      display: block;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .post-close {
+      float: right;
+      background: none;
+      border: none;
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+      font-size: 14px;
+      color: #2c4661;
+      opacity: 0.35;
+      cursor: pointer;
+      padding: 0;
+      margin: -8px -8px 0 0;
+    }
+
+    .post-close:hover {
+      opacity: 0.7;
+    }
+
+    .post-title {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .post-subtitle {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .post-date {
+      font-size: 12px;
+      font-weight: 300;
+      opacity: 0.75;
+      margin-bottom: 28px;
+    }
+
+    .post-body {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    .post-body p {
+      margin-bottom: 16px;
+    }
+
+    .post-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .post-body h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin: 28px 0 12px 0;
+    }
+
+    .post-body h2:first-child {
+      margin-top: 0;
+    }
+
+    .post-body ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .post-body li {
+      margin-bottom: 10px;
+    }
+
+    .post-body strong {
+      font-weight: 500;
+    }
+
+    .post-body em {
+      font-style: italic;
+    }
+
+    .post-body .note-ref {
+      font-size: 11px;
+      vertical-align: super;
+      opacity: 0.5;
+    }
+
+    .post-body hr {
+      border: none;
+      border-top: 1px solid #2c4661;
+      opacity: 0.15;
+      margin: 28px 0;
+    }
+
+    .post-body .notes {
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: 0.55;
+    }
+
+    .post-body .notes p {
+      margin-bottom: 10px;
+    }
+
+    .post-body .notes a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .post-nav {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(44, 70, 97, 0.15);
+      font-size: 13px;
+      font-weight: 300;
+      opacity: 0.4;
+    }
+
+    .post-nav a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .post-nav a:hover {
+      opacity: 0.7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .post-panel {
+        left: 50%;
+        width: 90%;
+        top: 5%;
+        max-height: 85vh;
+      }
+    }
+
     @media (max-width: 600px) {
       .card {
         top: 40px;
         left: 32px;
+      }
+
+      .post-panel {
+        padding: 32px 24px;
       }
     }
   </style>
@@ -121,11 +308,15 @@
 
     <h1 class="name">Reid Cavallini</h1>
 
+    <div class="section-label">What I'm Working On</div>
+
     <div class="projects">
-      <span class="project-name">Spectra</span>
+      <span class="project-name clickable" onclick="openPanel('spectra-panel')">Spectra</span>
       <span class="project-desc">Value chain intelligence, visualized</span>
-      <span class="project-name">FirstLook</span>
+      <span class="project-name clickable" onclick="openPanel('firstlook-panel')">FirstLook</span>
       <span class="project-desc">Company URL in &rarr; report out</span>
+      <span class="project-name clickable" onclick="openPanel('writing-panel')">Writing</span>
+      <span class="project-desc">Current events &rarr; investment insight</span>
     </div>
 
     <div class="contact">
@@ -134,5 +325,131 @@
       <a href="https://www.linkedin.com/in/reid-cavallini-b4b229131/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
+
+  <!-- Spectra panel -->
+  <div class="post-panel" id="spectra-panel">
+    <button class="post-close" onclick="closePanel('spectra-panel')">Close</button>
+    <h2 class="post-title">Coming soon</h2>
+    <div class="post-date">April 2026</div>
+    <div class="post-body">
+      <p>Live demo in progress.</p>
+    </div>
+  </div>
+
+  <!-- FirstLook panel -->
+  <div class="post-panel" id="firstlook-panel">
+    <button class="post-close" onclick="closePanel('firstlook-panel')">Close</button>
+    <h2 class="post-title">Coming soon</h2>
+    <div class="post-date">April 2026</div>
+    <div class="post-body">
+      <p>Live demo in progress.</p>
+    </div>
+  </div>
+
+  <!-- Writing panel -->
+  <div class="post-panel" id="writing-panel">
+    <button class="post-close" onclick="closePanel('writing-panel')">Close</button>
+    <h2 class="post-title">The era of offense dominance</h2>
+    <div class="post-subtitle">Or, how cyber might eat your IRR</div>
+    <div class="post-date">April 3, 2026</div>
+    <div class="post-body">
+      <p>If you underwrote or acquired a business in the past few years, you may be undermodeling cyber risk, and, based on recent developments, the gap may be about to widen.</p>
+
+      <h2>Why offense wins: asymmetry of responsibility</h2>
+
+      <p>There&rsquo;s a term gaining traction in AI circles: &ldquo;offense-dominant.&rdquo; Anthropic CEO Dario Amodei has been using it in his writing and public remarks to describe what happens when AI capabilities make attack structurally easier than defense.<span class="note-ref">[1]</span></p>
+
+      <p>Then, in late March, we found out why it might have been on his mind: leaked Anthropic documents called its new model &ldquo;currently far ahead of any other AI model in cyber capabilities.&rdquo;<span class="note-ref">[2]</span> The documents warned that the model &ldquo;presages an upcoming wave of models that can exploit vulnerabilities in ways that far outpace the efforts of defenders.&rdquo; Anthropic confirmed the model is real. A spokesperson called it &ldquo;a step change.&rdquo;<span class="note-ref">[3]</span></p>
+
+      <p>There&rsquo;s a basic asymmetry in cybersecurity that&rsquo;s easy to understand. An attacker just has to find <em>one</em> way in. But a defender has to close <em>every</em> way in.<span class="note-ref">[4]</span></p>
+
+      <p>AI makes this worse. A model that can read code and reason about how systems fit together can find bugs that humans missed for decades. Anthropic says their current model (i.e., <em>not</em> the one warned about above) already found over 500 vulnerabilities in widely-used open-source software. These are bugs that in some cases had survived years of expert review.<span class="note-ref">[5]</span></p>
+
+      <p>So that the world isn&rsquo;t totally flat footed, Anthropic is reportedly giving cyber defenders new model access first, &ldquo;giving them a head start.&rdquo;<span class="note-ref">[6]</span> They&rsquo;ve also reportedly been using Claude to quietly find and fix bugs in public code before anyone can exploit them.<span class="note-ref">[7]</span> A recent source code leak revealed an internal feature literally called &ldquo;Undercover Mode,&rdquo; stealth contributions to open-source projects, with instructions to hide not just the Anthropic brand but the fact that AI wrote the code at all.<span class="note-ref">[8]</span></p>
+
+      <h2>A few things happening at once</h2>
+
+      <ol>
+        <li>Frontier AI models are getting dramatically better at finding and exploiting software vulnerabilities. This is not speculation.<span class="note-ref">[9]</span></li>
+        <li>Open-source and locally-run models keep closing the gap with frontier models. They&rsquo;re behind, but less behind every cycle. What only the best model can do today, many models will be able to do later.<span class="note-ref">[10]</span></li>
+        <li>The deeper societal ramifications of the above I&rsquo;ll leave to others, but let me drill down on the implications in a domain I know well:</li>
+      </ol>
+
+      <p>I spent several years post-law school analyzing and acquiring lower middle market businesses. By the time I left my CIO role at the end of 2025, it was no longer a surprise when we found out a target had suffered a ransom attack. The company got breached, they paid a ransom, insurance paid for it, they did some IT remediation, and they moved on. It happened all the time.</p>
+
+      <p>The data backs this up. Somewhere between 40 and 70 percent of small and mid-sized businesses report a cyber incident in any given year.<span class="note-ref">[11]</span> Nearly half of all cyberattacks target small businesses.<span class="note-ref">[12]</span> The numbers have been going up: the Verizon 2025 Data Breach Investigations Report found ransomware attacks rose 37 percent year-over-year and were present in 88 percent of SMB breaches, while exploitation of vulnerabilities surged 34 percent.<span class="note-ref">[13]</span></p>
+
+      <p>Right now, cyber insurance is relatively cheap. Lots of capital is flowing into the market. Insurers see cyber as one of the biggest growth opportunities in the industry.<span class="note-ref">[14]</span> Premiums are expected to rise about 15 percent in 2026, in part driven by the increase of AI-related threats.<span class="note-ref">[15]</span></p>
+
+      <h2>The squeeze</h2>
+
+      <p>I think about coastal property insurance in Florida. There was a time when you could get it easily for fairly cheap. Eventually, insurers repriced dramatically or stopped offering coverage altogether. Not all at once: gradually, over years.</p>
+
+      <p>The underlying cause was structural and it wasn&rsquo;t going away.</p>
+
+      <p>And critically, the risk was correlated. A hurricane doesn&rsquo;t hit one house. It hits ten thousand houses on the same afternoon.</p>
+
+      <p>AI-driven cyberattacks are starting to look the same way. This week, a supply-chain attack on LiteLLM, an open-source library downloaded millions of times a day, affected Mercor, a $10 billion AI startup, along with thousands of other companies. The fallout is still unfolding.<span class="note-ref">[16]</span> In 2023, a similar attack exploiting a flaw in MOVEit, a common file transfer tool, hit hundreds of organizations simultaneously and affected nearly 100 million individuals.<span class="note-ref">[17]</span> That looks a lot like a hurricane. When insurers realize they&rsquo;re holding that kind of systemic, correlated risk, the market hardens. If that&rsquo;s right, then cyber insurance is going to get a lot more expensive, require deeper investments in CapEx and OpEx to maintain coverage, and/or pull out of some markets altogether.</p>
+
+      <p>Now think about what that means for a specific kind of business: distributors, resellers, grocery. These are low-margin operations, and in the case of acquisitions, often carrying debt with covenants and repayment requirements. There&rsquo;s little margin to give.</p>
+
+      <p>So what? The people building these AI models are warning us, as is basic intuition, that offense is winning now and could reasonably pull away very soon.</p>
+
+      <p><strong>If you&rsquo;re underwriting or acquiring lower middle market businesses, the insurance and IT lines in your model deserve a harder look. Model deeply conservative assumptions on insurance, IT OpEx, and IT CapEx for sensitivity analysis.</strong></p>
+
+      <hr>
+
+      <div class="notes">
+        <p><strong>Notes</strong></p>
+
+        <p>[1] Amodei, &ldquo;The Adolescence of Technology,&rdquo; January 26, 2026. In the essay, Amodei warns that &ldquo;AI-led cyberattacks have actually happened in the wild&rdquo; and will &ldquo;become a serious and unprecedented threat to the integrity of computer systems around the world.&rdquo; On the Dwarkesh Podcast (February 13, 2026), Amodei applied the concept more broadly: &ldquo;We might live in an offense-dominant world where one person or one AI model is smart enough to do something that causes damage for everything else.&rdquo; <a href="https://www.darioamodei.com/essay/the-adolescence-of-technology" target="_blank" rel="noopener">darioamodei.com</a>; <a href="https://www.dwarkesh.com/p/dario-amodei-2" target="_blank" rel="noopener">dwarkesh.com</a></p>
+
+        <p>[2] Beatrice Nolan, &ldquo;Exclusive: Anthropic acknowledges testing new AI model representing &lsquo;step change&rsquo; in capabilities,&rdquo; <em>Fortune</em>, March 26, 2026. The model is referred to internally as both &ldquo;Claude Mythos&rdquo; and &ldquo;Capybara.&rdquo; <a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank" rel="noopener">fortune.com</a></p>
+
+        <p>[3] See note 2.</p>
+
+        <p>[4] My dad and uncle were both NHL hockey players, and my hockey coaches growing up. My dad, a defenseman, resented the forwards: &ldquo;On defense, you have to be perfect all game, but a forward can play terrible, have one good shift, score a goal, and all of a sudden they&rsquo;re the best player on the ice.&rdquo; I think a lot of athletes understand this asymmetry intuitively.</p>
+
+        <p>[5] Anthropic, &ldquo;Claude Code Security,&rdquo; February 20, 2026. Anthropic reported finding over 500 vulnerabilities in production open-source codebases using Claude Opus 4.6. <a href="https://www.anthropic.com/news/claude-code-security" target="_blank" rel="noopener">anthropic.com</a></p>
+
+        <p>[6] See note 2.</p>
+
+        <p>[7] See note 5.</p>
+
+        <p>[8] The Claude Code source was inadvertently exposed via a source map file in npm package version 2.1.88 on March 31, 2026. The leaked code contained a system prompt for &ldquo;Undercover Mode&rdquo; with instructions to hide AI authorship. <a href="https://thehackernews.com/2026/04/claude-code-tleaked-via-npm-packaging.html" target="_blank" rel="noopener">The Hacker News</a>; <a href="https://www.theregister.com/2026/03/31/anthropic_claude_code_source_code/" target="_blank" rel="noopener">The Register</a>; <a href="https://fortune.com/2026/03/31/anthropic-source-code-claude-code-data-leak-second-security-lapse-days-after-accidentally-revealing-mythos/" target="_blank" rel="noopener">Fortune</a></p>
+
+        <p>[9] Anthropic acknowledged dual-use cyber risks with its Opus 4.6 release in February 2026. OpenAI classified its GPT-5.3-Codex as its first &ldquo;high capability&rdquo; model for cybersecurity tasks. <a href="https://fortune.com/2026/02/05/openai-gpt-5-3-codex-warns-unprecedented-cybersecurity-risks/" target="_blank" rel="noopener">fortune.com</a></p>
+
+        <p>[10] Nathan Lambert, &ldquo;What Comes Next With Open Models,&rdquo; Interconnects, March 13, 2026. <a href="https://www.interconnects.ai/p/the-next-phase-of-open-models" target="_blank" rel="noopener">interconnects.ai</a>; <a href="https://epoch.ai/data-insights/open-weights-vs-closed-weights-models/" target="_blank" rel="noopener">Epoch AI</a></p>
+
+        <p>[11] Range reflects variation across surveys and geographies. U.S. figures cluster around 41&ndash;46%; Canadian SMBs report as high as 72&ndash;73%. See Verizon DBIR (2024, 2025); Sophos State of Ransomware (2025). <a href="https://deepstrike.io/blog/cyber-attacks-on-small-businesses" target="_blank" rel="noopener">deepstrike.io</a></p>
+
+        <p>[12] Verizon Data Breach Investigations Report; Packetlabs (2024). The commonly cited figure is 43% of all cyberattacks targeting small businesses. <a href="https://www.packetlabs.net/posts/the-top-cybersecurity-statistics-for-2024/" target="_blank" rel="noopener">packetlabs.net</a></p>
+
+        <p>[13] Verizon, 2025 Data Breach Investigations Report (April 2025). Analyzed over 22,000 security incidents including 12,195 confirmed breaches. <a href="https://www.verizon.com/business/resources/reports/dbir/" target="_blank" rel="noopener">verizon.com</a></p>
+
+        <p>[14] WTW, &ldquo;Cyber Risk: A Look Ahead to 2026,&rdquo; February 2026. Estimates $16 billion in 2025 premiums projected to reach $40 billion by 2030. <a href="https://www.wtwco.com/en-us/insights/2026/02/cyber-risk-a-look-ahead-to-2026" target="_blank" rel="noopener">wtwco.com</a></p>
+
+        <p>[15] Forrester Research, &ldquo;Predictions 2026: Insurance,&rdquo; via Insurance Journal, November 5, 2025. Forrester projects written cyber premiums will rise 15% in 2026. See also Chubb, 2026 Cyber Claims Report, finding average claim severity doubled to $4.4 million in 2025. <a href="https://www.insurancejournal.com/news/national/2025/11/05/846444.htm" target="_blank" rel="noopener">insurancejournal.com</a></p>
+
+        <p>[16] Beatrice Nolan, &ldquo;Mercor, a $10 billion AI startup&hellip; confirms major data breach,&rdquo; <em>Fortune</em>, April 2, 2026. For the 2023 MOVEit attack, Cybernews reported the Cl0p campaign hit nearly 100 million individuals. <a href="https://fortune.com/2026/04/02/mercor-ai-startup-security-incident-10-billion/" target="_blank" rel="noopener">Fortune</a>; <a href="https://www.theregister.com/2026/04/02/mercor_supply_chain_attack/" target="_blank" rel="noopener">The Register</a></p>
+
+        <p>[17] See note 16.</p>
+      </div>
+    </div>
+    <div class="post-nav">
+      This is the latest post.
+    </div>
+  </div>
+
+  <script>
+    function openPanel(id) {
+      document.querySelectorAll('.post-panel').forEach(p => p.classList.remove('open'));
+      document.getElementById(id).classList.toggle('open');
+    }
+    function closePanel(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+  </script>
 </body>
 </html>
