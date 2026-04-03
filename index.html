@@ -9,6 +9,9 @@
   <meta property="og:description" content="Spectra — value chain intelligence, visualized. FirstLook — company URL in, report out.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://reidcavallini.com">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reid Cavallini">
+  <meta name="twitter:description" content="Spectra — value chain intelligence, visualized. FirstLook — company URL in, report out.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     @font-face {
@@ -16,12 +19,14 @@
       font-style: normal;
       font-weight: 300 500;
       src: url(fonts/newsreader-normal.woff2) format('woff2');
+      font-display: swap;
     }
     @font-face {
       font-family: 'Newsreader';
       font-style: italic;
       font-weight: 300 400;
       src: url(fonts/newsreader-italic.woff2) format('woff2');
+      font-display: swap;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,8 +81,20 @@
       line-height: 1.4;
     }
 
+    a.project-name {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: rgba(44, 70, 97, 0.3);
+    }
+
     .project-name.clickable {
       cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: rgba(44, 70, 97, 0.3);
     }
 
     .project-name.clickable:hover,
@@ -100,7 +117,10 @@
 
     .contact a {
       color: inherit;
-      text-decoration: none;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: rgba(44, 70, 97, 0.25);
     }
 
     .contact a:hover {
@@ -311,9 +331,9 @@
     <div class="section-label">What I'm Working On</div>
 
     <div class="projects">
-      <a class="project-name" href="/spectra/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">Spectra</a>
+      <a class="project-name" href="/spectra/" target="_blank" rel="noopener">Spectra</a>
       <span class="project-desc">Value chain intelligence, visualized</span>
-      <a class="project-name" href="https://firstlookanalysis.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">FirstLook</a>
+      <a class="project-name" href="https://firstlookanalysis.com" target="_blank" rel="noopener">FirstLook</a>
       <span class="project-desc">Company URL in &rarr; report out</span>
       <span class="project-name clickable" onclick="openPanel('writing-panel')">Writing</span>
       <span class="project-desc">Current events &rarr; investment insight</span>
